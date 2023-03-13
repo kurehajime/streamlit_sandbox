@@ -1,5 +1,9 @@
 import streamlit as st
-import openai
+from langchain import OpenAI
+from llama_index import GPTSimpleVectorIndex, LLMPredictor
+
+llm_predictor = LLMPredictor(llm=OpenAI(
+    temperature=0, model_name="gpt-3.5-turbo"))
 
 st.title('myGPT')
 
@@ -8,13 +12,10 @@ with st.form(key='talk'):
     submit_btn = st.form_submit_button('送信')
 
 if submit_btn:
-    completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-            {"role": "user", "content": prompt},
-        ]
+    vector_index = GPTSimpleVectorIndex.load_from_disk(
+        save_path="index.json", llm_predictor=llm_predictor
     )
-    response = ""
-    for cho in completion.choices:
-        response += cho.message.content
-    st.markdown(response)
+    answer = vector_index.query(
+        prompt
+    )
+    st.markdown(answer)
