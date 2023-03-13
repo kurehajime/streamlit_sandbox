@@ -11,6 +11,7 @@ packages = [{include = "streamlit_sandbox"}]
 python = "^3.10"
 streamlit = "^1.20.0"
 openai = "^0.27.2"
+llama-index = "^0.4.27"
 
 
 [build-system]

@@ -1,16 +1,13 @@
 import streamlit as st
-import datetime
+import os
 
-st.title('入力フォーム')
+st.title('ファイルのアップロード')
+st.caption('ファイルのアップロード')
 
-st.caption('入力してね')
-with st.form(key='profile_form'):
-    name = st.text_input('名前')
-
-    # submit 処理を擬似的に実装
-    # submit_btn(送信) をクリックすることで入力フォームで入力した情報が表示されます
-    submit_btn = st.form_submit_button('送信')
-    cancel_btn = st.form_submit_button('キャンセル')
-
-    if submit_btn:
-        st.text(f'こんにちは {name} さん')
+uploaded_files = st.file_uploader(
+    "Choose a CSV file", accept_multiple_files=True)
+for uploaded_file in uploaded_files:
+    bytes_data = uploaded_file.read()
+    st.write("filename:", uploaded_file.name)
+    with open(os.path.join("./storage", uploaded_file.name), 'wb') as f:
+        f.write(bytes_data)
