@@ -3,5 +3,5 @@
 ## Run
 
 ```
-poetry run streamlit run streamlit_sandbox/index.py
+docker-compose up 
 ```
